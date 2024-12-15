@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat2</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div id="chat-container">
+        <!-- Список пользователей онлайн -->
+        <div id="name-container">
+            <h4>Онлайн:</h4>
+            <ul id="online-users"></ul>
+        </div>
+
+        <!-- Сообщения -->
+        <div id="messages-container">
+            <ul id="messages"></ul>
+        </div>
+
+        <!-- Установка имени пользователя -->
+        <div id="input-container">
+            <input id="user-name-input" type="text" placeholder="Введите ваше имя" />
+            <button id="set-name-button">Установить имя</button>
+        </div>
+
+        <!-- Поле ввода сообщений -->
+        <div id="input-container">
+            <input id="message-input" type="text" placeholder="Введите сообщение..." />
+            <button id="send-button">Отправить</button>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
