@@ -9,14 +9,14 @@ import asyncio
 redis_client = aioredis.Redis()
 
 # Список имён подключённых клиентов
-connected_clients = set()
+online_user = set()
 user_names = {}  # Сопоставление WebSocket соединения и имени пользователя
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
     def open(self):
         # При подключении добавляем клиента в список
-        connected_clients.add(self)
-        user_names[self] = "Аноним"  # Имя по умолчанию
+        online_user.add(self)
+        user_names[self] = "Гость"  # Имя по умолчанию
         self.broadcast_user_list()
 
     async def on_message(self, message):
@@ -32,7 +32,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def on_close(self):
         # При отключении удаляем клиента из списка
-        connected_clients.remove(self)
+        online_user.remove(self)
         user_names.pop(self, None)
         self.broadcast_user_list()
 
@@ -40,7 +40,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         # Рассылка списка подключённых пользователей
         user_list = list(user_names.values())
         message = json.dumps({"type": "users", "users": user_list})
-        for client in connected_clients:
+        for client in online_user:
             client.write_message(message)
 
     def check_origin(self, origin):
@@ -56,7 +56,7 @@ async def redis_listener():
         if message["type"] == "message":
             data = message["data"].decode("utf-8") if isinstance(message["data"], bytes) else message["data"]
             # Рассылаем сообщение всем подключённым клиентам
-            for client in connected_clients:
+            for client in online_user:
                 await client.write_message(data)
 
 class MainHandler(tornado.web.RequestHandler):
