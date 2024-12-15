@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const userNameInput = document.getElementById("user-name-input");
     const setNameButton = document.getElementById("set-name-button");
 
-    let userName = "Аноним"; // Имя пользователя по умолчанию
+    let userName = "Гость"; // Имя пользователя по умолчанию
 
     // Установка имени пользователя
     setNameButton.onclick = function () {
